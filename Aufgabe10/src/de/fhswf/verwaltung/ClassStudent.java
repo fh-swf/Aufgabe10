@@ -6,19 +6,19 @@ public class ClassStudent {
     
     private Integer Fahrer_ID; 
     private String Name;
-    private String fKlasse;
-    private Date fSeit;
+    private String Vorname;
+    private String Email;
     private Integer edited;
     
     public ClassStudent()
     {
     }
     
-    public ClassStudent(String name, String fuehrerscheinklasse, Date date)
+    public ClassStudent(String name, String fuehrerscheinklasse, String email)
     {
         setName(name);
         setFueKlasse(fuehrerscheinklasse);
-        setFueSeit(date);
+        setFueSeit(email);
     }
 
     public Integer getFahrer_ID() {
@@ -38,19 +38,19 @@ public class ClassStudent {
     }
 
     public String getFueKlasse() {
-        return fKlasse;
+        return Vorname;
     }
 
     public void setFueKlasse(String fuehrerscheinklasse) {
-        fKlasse = fuehrerscheinklasse;
+        Vorname = fuehrerscheinklasse;
     }
 
-    public Date getFueSeit() {
-        return fSeit;
+    public String getFueSeit() {
+        return Email;
     }
 
-    public void setFueSeit(Date fuehrerscheinSeit) {
-        fSeit = fuehrerscheinSeit;
+    public void setFueSeit(String email) {
+        Email = email;
     }
     
     public Integer getEdited() {
@@ -63,7 +63,7 @@ public class ClassStudent {
 
 	public String toString()
     {
-       return "Name: " + Name + " Fuehrerscheinklassen: " + fKlasse + " Fuehrerscheindatum: " + fSeit.toString() + " Changed: " + edited.toString();
+       return "Name: " + Name + " Fuehrerscheinklassen: " + Vorname + " Fuehrerscheindatum: " + Email.toString() + " Changed: " + edited.toString();
     }
     
 }

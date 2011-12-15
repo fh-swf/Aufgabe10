@@ -64,7 +64,7 @@ public class DialogProject extends JDialog implements ActionListener {
 		driverLabel.setPreferredSize(new Dimension(100, 10));
 		horiBox.add(driverLabel);
 		driver = new JComboBox();
-		for (ClassStudent classStudent : parent.classStudentMap) {
+		for (ClassStudent classStudent : parent.studentMap) {
 			driver.addItem(classStudent.getFahrer_ID() + "  : " + classStudent.getName());
 		}
 		driver.setEditable(false);
@@ -75,7 +75,7 @@ public class DialogProject extends JDialog implements ActionListener {
 		carLabel.setPreferredSize(new Dimension(100, 10));
 		horiBox.add(carLabel);
 		car = new JComboBox();
-		for (ClassCompany classCompany : parent.classCompanyMap) {
+		for (ClassCompany classCompany : parent.companyMap) {
 			car.addItem(classCompany.getFahrzeug_ID() + "  : "
 					+ classCompany.getKennzeichen());
 		}

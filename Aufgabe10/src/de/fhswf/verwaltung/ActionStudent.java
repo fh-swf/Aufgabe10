@@ -75,73 +75,73 @@ public class ActionStudent implements Action {
 				}
 			}
 
-			ClassStudent classStudent = new ClassStudent(source.nameFahrer.getText(),
-					stringBuilder.toString(), new Date(source.fDatum
-							.getSelectedDate().getYear() + 1900, source.fDatum
-							.getSelectedDate().getMonth(), source.fDatum
-							.getSelectedDate().getDate()));
-
-			classStudent.setEdited(2);
-
-			if (source.getRow() != -1) {
-				if (parent.getClassStudent(source.getRow()).getEdited() == 3)
-					classStudent.setEdited(3);
-				classStudent.setFahrer_ID(parent.getClassStudent(source.getRow())
-						.getFahrer_ID());
-				model.editRowAt(classStudent, parent, source.getRow()); // Tabelle
-				parent.editClassStudent(classStudent, source.getRow()); // fachMap
-			} else {
-				classStudent.setEdited(3);
-				model.addRow(classStudent, parent); // Tabelle
-				parent.addClassStudent(classStudent); // fachMap
-			}
-
-		} else if (methode.contentEquals("del")) {
-			model.removeRowAt(source.getRow()); // Tabelle
-			parent.delFahrer(source.getRow()); // fachMap
-			
-		} else if (methode.contentEquals("rel")) {
-			StringBuilder stringBuilder = new StringBuilder();
-
-			for (JCheckBox checkBox : source.getCheckBoxMap()) {
-				if (checkBox.isSelected()) {
-					if (stringBuilder.length() == 0)
-						stringBuilder.append(checkBox.getLabel().trim());
-					else {
-						stringBuilder.append(", ");
-						stringBuilder.append(checkBox.getLabel().trim());
-					}
-				}
-			}
-
-			ClassStudent classStudent = new ClassStudent(source.nameFahrer.getText(),
-					stringBuilder.toString(), new Date(source.fDatum
-							.getSelectedDate().getYear() + 1900, source.fDatum
-							.getSelectedDate().getMonth(), source.fDatum
-							.getSelectedDate().getDate()));
-
-			classStudent.setEdited(2);
-
-			if (source.getRow() != -1) {
-				if (parent.getClassStudent(source.getRow()).getEdited() == 3)
-					classStudent.setEdited(3);
-				classStudent.setFahrer_ID(parent.getClassStudent(source.getRow())
-						.getFahrer_ID());
-				model.editRowAt(classStudent, parent, source.getRow()); // Tabelle
-				parent.editClassStudent(classStudent, source.getRow()); // fachMap
-			} else {
-				classStudent.setEdited(3);
-				model.addRow(classStudent, parent); // Tabelle
-				parent.addClassStudent(classStudent); // fachMap
-			}
-
-			parent.database.write(parent);
-			parent.classStudentMap.clear();
-			parent.classStudentMapDel.clear();
-			parent.classCompanyMap.clear();
-			parent.classCompanyMapDel.clear();
-			parent.classProjectMap.clear();
-			parent.classProjectMapDel.clear();
+//			ClassStudent classStudent = new ClassStudent(source.nameStudent.getText(),
+//					stringBuilder.toString(), new Date(source.fDatum
+//							.getSelectedDate().getYear() + 1900, source.fDatum
+//							.getSelectedDate().getMonth(), source.fDatum
+//							.getSelectedDate().getDate()));
+//
+//			classStudent.setEdited(2);
+//
+//			if (source.getRow() != -1) {
+//				if (parent.getClassStudent(source.getRow()).getEdited() == 3)
+//					classStudent.setEdited(3);
+//				classStudent.setFahrer_ID(parent.getClassStudent(source.getRow())
+//						.getFahrer_ID());
+//				model.editRowAt(classStudent, parent, source.getRow()); // Tabelle
+//				parent.editClassStudent(classStudent, source.getRow()); // fachMap
+//			} else {
+//				classStudent.setEdited(3);
+//				model.addRow(classStudent, parent); // Tabelle
+//				parent.addClassStudent(classStudent); // fachMap
+//			}
+//
+//		} else if (methode.contentEquals("del")) {
+//			model.removeRowAt(source.getRow()); // Tabelle
+//			parent.delFahrer(source.getRow()); // fachMap
+//			
+//		} else if (methode.contentEquals("rel")) {
+//			StringBuilder stringBuilder = new StringBuilder();
+//
+//			for (JCheckBox checkBox : source.getCheckBoxMap()) {
+//				if (checkBox.isSelected()) {
+//					if (stringBuilder.length() == 0)
+//						stringBuilder.append(checkBox.getLabel().trim());
+//					else {
+//						stringBuilder.append(", ");
+//						stringBuilder.append(checkBox.getLabel().trim());
+//					}
+//				}
+//			}
+//
+//			ClassStudent classStudent = new ClassStudent(source.nameStudent.getText(),
+//					stringBuilder.toString(), new Date(source.fDatum
+//							.getSelectedDate().getYear() + 1900, source.fDatum
+//							.getSelectedDate().getMonth(), source.fDatum
+//							.getSelectedDate().getDate()));
+//
+//			classStudent.setEdited(2);
+//
+//			if (source.getRow() != -1) {
+//				if (parent.getClassStudent(source.getRow()).getEdited() == 3)
+//					classStudent.setEdited(3);
+//				classStudent.setFahrer_ID(parent.getClassStudent(source.getRow())
+//						.getFahrer_ID());
+//				model.editRowAt(classStudent, parent, source.getRow()); // Tabelle
+//				parent.editClassStudent(classStudent, source.getRow()); // fachMap
+//			} else {
+//				classStudent.setEdited(3);
+//				model.addRow(classStudent, parent); // Tabelle
+//				parent.addClassStudent(classStudent); // fachMap
+//			}
+//
+//			parent.database.write(parent);
+			parent.studentMap.clear();
+			parent.studentMapDel.clear();
+			parent.companyMap.clear();
+			parent.companyMapDel.clear();
+			parent.projectMap.clear();
+			parent.projectMapDel.clear();
 			parent.tableDataStudent.clear();
 			parent.tableDataCompany.clear();
 			parent.tableDataProject.clear();

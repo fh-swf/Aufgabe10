@@ -34,12 +34,12 @@ public class MainWindow extends JFrame
    /** Version. */
    private static final long serialVersionUID = 1L;
    
-   public Vector<ClassStudent> classStudentMap = new Vector<ClassStudent>();
-   public Vector<ClassStudent> classStudentMapDel = new Vector<ClassStudent>();
-   public Vector<ClassCompany> classCompanyMap = new Vector<ClassCompany>();
-   public Vector<ClassCompany> classCompanyMapDel = new Vector<ClassCompany>();
-   public Vector<ClassProject> classProjectMap = new Vector<ClassProject>();
-   public Vector<ClassProject> classProjectMapDel = new Vector<ClassProject>();
+   public Vector<ClassStudent> studentMap = new Vector<ClassStudent>();
+   public Vector<ClassStudent> studentMapDel = new Vector<ClassStudent>();
+   public Vector<ClassCompany> companyMap = new Vector<ClassCompany>();
+   public Vector<ClassCompany> companyMapDel = new Vector<ClassCompany>();
+   public Vector<ClassProject> projectMap = new Vector<ClassProject>();
+   public Vector<ClassProject> projectMapDel = new Vector<ClassProject>();
    public TableModelStudent tableDataStudent = new TableModelStudent();
    public TableModelCompany tableDataCompany = new TableModelCompany();
    public TableModelProject tableDataProject = new TableModelProject();
@@ -61,7 +61,7 @@ public class MainWindow extends JFrame
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.addWindowListener(new WindowAdapter(){
          public void windowClosing(WindowEvent we){
-            database.write(frame);
+//            database.write(frame);
             database.shutdown();
             System.exit(0);
          }
@@ -90,43 +90,43 @@ public class MainWindow extends JFrame
       menuHelp.getAccessibleContext().setAccessibleDescription("Hilfe-Menue");
       menuBar.add(menuHelp);
 
-      actionNewStudent = new JMenuItem("Neuen ClassStudent...", KeyEvent.VK_N);
+      actionNewStudent = new JMenuItem("Neuen Student...", KeyEvent.VK_N);
       actionNewStudent.getAccessibleContext().setAccessibleDescription(
-            "Neuen ClassStudent anlegen.");
+            "Neuen Student anlegen.");
       actionNewStudent.addActionListener(new ActionListener()
       {
          @Override
          public void actionPerformed(ActionEvent e)
          {
-              new DialogStudent("ClassStudent hinzufuegen", frame, tableDataStudent).setRow(-1);
+              new DialogStudent("Student hinzufuegen", frame, tableDataStudent).setRow(-1);
          }
       });
       menuFile.add(actionNewStudent);
 
       
-      actionNewCompany = new JMenuItem("Neues ClassCompany...", KeyEvent.VK_L);
+      actionNewCompany = new JMenuItem("Neue Company...", KeyEvent.VK_L);
       actionNewCompany.getAccessibleContext().setAccessibleDescription(
-            "Neues ClassCompany anlegen.");
+            "Neue Company anlegen.");
       actionNewCompany.addActionListener(new ActionListener()
       {
           @Override
           public void actionPerformed(ActionEvent e)
           {
-               new DialogCompany("ClassCompany hinzufuegen", frame, tableDataCompany).setRow(-1);
+               new DialogCompany("Company hinzufuegen", frame, tableDataCompany).setRow(-1);
           }
        });
       menuFile.add(actionNewCompany);
       
       
-      actionNewProject = new JMenuItem("Neue Relation...", KeyEvent.VK_L);
+      actionNewProject = new JMenuItem("Neues Projekt...", KeyEvent.VK_L);
       actionNewProject.getAccessibleContext().setAccessibleDescription(
-            "Neues Relation anlegen.");
+            "Neues Projekt anlegen.");
       actionNewProject.addActionListener(new ActionListener()
       {
           @Override
           public void actionPerformed(ActionEvent e)
           {
-               new DialogProject("Relation hinzufuegen", frame, tableDataProject).setRow(-1);
+               new DialogProject("Projekt hinzufuegen", frame, tableDataProject).setRow(-1);
           }
        });
       menuFile.add(actionNewProject);
@@ -140,12 +140,12 @@ public class MainWindow extends JFrame
     	  @Override
           public void actionPerformed(ActionEvent e)
           {
-    		   classStudentMap.clear();
-    		   classStudentMapDel.clear();
-    		   classCompanyMap.clear();
-    		   classCompanyMapDel.clear();
-    		   classProjectMap.clear();
-    		   classProjectMapDel.clear();
+    		   studentMap.clear();
+    		   studentMapDel.clear();
+    		   companyMap.clear();
+    		   companyMapDel.clear();
+    		   projectMap.clear();
+    		   projectMapDel.clear();
     		   tableDataStudent.clear();
     		   tableDataCompany.clear();
     		   tableDataProject.clear();
@@ -163,7 +163,7 @@ public class MainWindow extends JFrame
     	  @Override
           public void actionPerformed(ActionEvent e)
           {
-         	database.write(frame);
+//         	database.write(frame);
           }
        });
       menuFile.add(actionWriteDb);
@@ -177,7 +177,7 @@ public class MainWindow extends JFrame
          @Override
          public void actionPerformed(ActionEvent e)
          {
-        	database.write(frame);
+//        	database.write(frame);
             database.shutdown();
             System.exit(0);
          }
@@ -215,7 +215,7 @@ public class MainWindow extends JFrame
 //      tableScrollPaneStudent.setPreferredSize(new Dimension(400, 400));
       tableScrollPaneStudent.setBorder(BorderFactory
             .createCompoundBorder(BorderFactory.createCompoundBorder(
-                  BorderFactory.createTitledBorder("Fahreruebersicht"), BorderFactory
+                  BorderFactory.createTitledBorder("Studentenuebersicht"), BorderFactory
                         .createEmptyBorder(10, 10, 10, 10)), tableScrollPaneStudent
                   .getBorder()));
       
@@ -228,7 +228,7 @@ public class MainWindow extends JFrame
 //      tableScrollPaneCompany.setPreferredSize(new Dimension(240, 400));
       tableScrollPaneCompany.setBorder(BorderFactory
             .createCompoundBorder(BorderFactory.createCompoundBorder(
-                  BorderFactory.createTitledBorder("Fahrzeuguebersicht"), BorderFactory
+                  BorderFactory.createTitledBorder("Firmenuebersicht"), BorderFactory
                         .createEmptyBorder(10, 10, 10, 10)), tableScrollPaneCompany
                   .getBorder()));
       
@@ -241,7 +241,7 @@ public class MainWindow extends JFrame
 //      tableScrollPaneProject.setPreferredSize(new Dimension(240, 400));
       tableScrollPaneProject.setBorder(BorderFactory
             .createCompoundBorder(BorderFactory.createCompoundBorder(
-                  BorderFactory.createTitledBorder("Fahrzeuguebersicht"), BorderFactory
+                  BorderFactory.createTitledBorder("Projektuebersicht"), BorderFactory
                         .createEmptyBorder(10, 10, 10, 10)), tableScrollPaneProject
                   .getBorder()));
     
@@ -280,77 +280,77 @@ public class MainWindow extends JFrame
    
    public void addClassStudent(ClassStudent classStudent)
    {
-      classStudentMap.add(classStudent);
+      studentMap.add(classStudent);
    }
    
    public void editClassStudent(ClassStudent classStudent, int row)
    {
- 	  classStudentMap.remove(row);
- 	  classStudentMap.insertElementAt(classStudent, row);
+ 	  studentMap.remove(row);
+ 	  studentMap.insertElementAt(classStudent, row);
    }
    public void delFahrer(int row)
    {
-	   classStudentMapDel.add(classStudentMap.get(row));
-	   classStudentMap.remove(row);
+	   studentMapDel.add(studentMap.get(row));
+	   studentMap.remove(row);
    }
    
    public ClassStudent getClassStudent(int index)
    {
-      return classStudentMap.get(index);
+      return studentMap.get(index);
    }
    
    public Vector<ClassStudent> getClassStudentMap()
    {
- 	  return classStudentMap;
+ 	  return studentMap;
    }
    
    
    public void addClassCompany(ClassCompany classCompany)
    {
-	   classCompanyMap.add(classCompany);
+	   companyMap.add(classCompany);
    }
    
    public void editClassCompany(ClassCompany classCompany, int row)
    {
-	  classCompanyMap.remove(row);
-	  classCompanyMap.insertElementAt(classCompany, row);
+	  companyMap.remove(row);
+	  companyMap.insertElementAt(classCompany, row);
    }
    public void delFahrzeug(int row)
    {
-	   classCompanyMapDel.add(classCompanyMap.get(row));
-	   classCompanyMap.remove(row);
+	   companyMapDel.add(companyMap.get(row));
+	   companyMap.remove(row);
    }
    
    public ClassCompany getClassCompany(int index)
    {
-      return classCompanyMap.get(index);
+      return companyMap.get(index);
    }
    
    public Vector<ClassCompany> getClassCompanyMap()
    {
- 	  return classCompanyMap;
+ 	  return companyMap;
    }
    
    
    public void addClassProject(ClassProject classProject)
    {
-	   classProjectMap.add(classProject);
+	   projectMap.add(classProject);
    }
    
    public void delDriverCar(int row)
    {
-	   classProjectMapDel.add(classProjectMap.get(row));
-	   classProjectMap.remove(row);
+	   projectMapDel.add(projectMap.get(row));
+	   projectMap.remove(row);
    }
    
    public ClassProject getClassProject(int index)
    {
-      return classProjectMap.get(index);
+      return projectMap.get(index);
    }
    
    public Vector<ClassProject> getClassProjectMap()
    {
- 	  return classProjectMap;
+ 	  return projectMap;
    }
 
 }

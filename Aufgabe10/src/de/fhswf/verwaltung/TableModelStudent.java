@@ -57,7 +57,7 @@ class TableModelStudent extends AbstractTableModel {
 	   public void addRow(ClassStudent classStudent, MainWindow frame) {
 	       int ID = getRowCount();
 	    
-	       data.add(ID, new RowEntryStudent(classStudent.getName(), classStudent.getFueKlasse(), classStudent.getFueSeit()));
+//	       data.add(ID, new RowEntryStudent(classStudent.getName(), classStudent.getFueKlasse(), classStudent.getFueSeit()));
 	       fireTableRowsInserted(ID, ID); 
 	   }
 
@@ -69,7 +69,7 @@ class TableModelStudent extends AbstractTableModel {
 	   public void editRowAt(ClassStudent classStudent, MainWindow frame, int r) {
 		   data.removeElementAt(r);
 	       fireTableRowsDeleted(r, r);
-		   data.insertElementAt(new RowEntryStudent(classStudent.getName(), classStudent.getFueKlasse(), classStudent.getFueSeit() ), r);
+//		   data.insertElementAt(new RowEntryStudent(classStudent.getName(), classStudent.getFueKlasse(), classStudent.getFueSeit() ), r);
 	       fireTableRowsInserted(r, r);
 	   }
 	   

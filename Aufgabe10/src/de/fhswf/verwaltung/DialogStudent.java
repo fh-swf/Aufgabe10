@@ -39,7 +39,11 @@ public class DialogStudent extends JDialog
 	   
 	   private Vector<JCheckBox> checkBoxMap = new Vector<JCheckBox>();
 
-	   protected JTextField nameFahrer;
+	   protected JTextField nameStudent;
+	   private JTextField vornameStudent;
+	   private JTextField emailStudent;
+	   private JTextField martStudent;
+		
 	   protected JCheckBox A1, A, B, C1, C, D1, D, BE, C1E, CE, D1E, DE, M, L, TS;
 	   protected JDatePicker fDatum;
 	   
@@ -50,11 +54,11 @@ public class DialogStudent extends JDialog
 	   
 	   private  TableModelCompany tableDataFahrzeug = new TableModelCompany();
 	   
-	   private String[] fKlasseStrings= { "A1", "A", "B", "C1", "C", "D1", "D", "BE", "C1E", "CE", "D1E", "DE", "M", "L", "T/S" };
-	   
 	   private int row = -1;
 	   
 	   private JDialog dialog;
+
+
 	   
 	   
 	   /**
@@ -90,138 +94,42 @@ public class DialogStudent extends JDialog
 	      
 	      horiBox = new JPanel();
 	      horiBox.setLayout(new BoxLayout(horiBox, BoxLayout.LINE_AXIS));
-	      JLabel nameLabel = new JLabel(" ClassStudent Name: ");
+	      JLabel matrLabel = new JLabel(" Matrikelnummer: ");
+	      matrLabel.setPreferredSize(new Dimension(140, 30));
+	      matrLabel.setMaximumSize(new Dimension(140, 30));
+	      horiBox.add(matrLabel);
+	      martStudent = new JTextField();
+	      horiBox.add(martStudent);
+	      vertBox.add(horiBox);
+	      
+	      horiBox = new JPanel();
+	      horiBox.setLayout(new BoxLayout(horiBox, BoxLayout.LINE_AXIS));
+	      JLabel nameLabel = new JLabel(" Name: ");
 	      nameLabel.setPreferredSize(new Dimension(140, 30));
 	      nameLabel.setMaximumSize(new Dimension(140, 30));
 	      horiBox.add(nameLabel);
-	      nameFahrer = new JTextField();
-	      horiBox.add(nameFahrer);
+	      nameStudent = new JTextField();
+	      horiBox.add(nameStudent);
 	      vertBox.add(horiBox);
 	      
 	      horiBox = new JPanel();
 	      horiBox.setLayout(new BoxLayout(horiBox, BoxLayout.LINE_AXIS));
-	      A1 = new JCheckBox(fKlasseStrings[0] + "  ");
-	      A1.setMnemonic(KeyEvent.VK_A);
-	      A1.setSelected(false);
-	      checkBoxMap.add(A1);
-	      horiBox.add(A1);
-	      
-	      A = new JCheckBox(fKlasseStrings[1] + "   ");
-	      A.setMnemonic(KeyEvent.VK_A);
-	      A.setSelected(false);
-	      checkBoxMap.add(A);
-	      horiBox.add(A);
-	      vertBox1.add(horiBox, BorderLayout.NORTH);
-	      
-	      horiBox = new JPanel();
-	      horiBox.setLayout(new BoxLayout(horiBox, BoxLayout.LINE_AXIS));
-	      B = new JCheckBox(fKlasseStrings[2] + "    ");
-	      B.setMnemonic(KeyEvent.VK_B);
-	      B.setSelected(false);
-	      checkBoxMap.add(B);
-	      horiBox.add(B);
-	      
-	      BE = new JCheckBox(fKlasseStrings[7] + "  ");
-	      BE.setMnemonic(KeyEvent.VK_B);
-	      BE.setSelected(false);
-	      horiBox.add(BE);
-	      checkBoxMap.add(BE);
-	      vertBox1.add(horiBox, BorderLayout.WEST);
-	      
-	      horiBox = new JPanel();
-	      horiBox.setLayout(new BoxLayout(horiBox, BoxLayout.LINE_AXIS));
-	      C1 = new JCheckBox(fKlasseStrings[3] + "  ");
-	      C1.setMnemonic(KeyEvent.VK_C);
-	      C1.setSelected(false);
-	      checkBoxMap.add(C1);
-	      horiBox.add(C1);
-
-	      C1E = new JCheckBox(fKlasseStrings[8]);
-	      C1E.setMnemonic(KeyEvent.VK_C);
-	      C1E.setSelected(false);
-	      checkBoxMap.add(C1E);
-	      horiBox.add(C1E);
-
-	      C = new JCheckBox(fKlasseStrings[4] + "    ");
-	      C.setMnemonic(KeyEvent.VK_C);
-	      C.setSelected(false);
-	      checkBoxMap.add(C);
-	      horiBox.add(C);
-
-	      CE = new JCheckBox(fKlasseStrings[9] + "  ");
-	      CE.setMnemonic(KeyEvent.VK_C);
-	      CE.setSelected(false);
-	      checkBoxMap.add(CE);
-	      horiBox.add(CE);
-	      vertBox1.add(horiBox, BorderLayout.SOUTH);
-	      
-	      horiBox = new JPanel();
-	      horiBox.setLayout(new BoxLayout(horiBox, BoxLayout.LINE_AXIS));
-	      D1 = new JCheckBox(fKlasseStrings[5] + "  ");
-	      D1.setMnemonic(KeyEvent.VK_D);
-	      D1.setSelected(false);
-	      checkBoxMap.add(D1);
-	      horiBox.add(D1);
-
-	      D1E = new JCheckBox(fKlasseStrings[10]);
-	      D1E.setMnemonic(KeyEvent.VK_D);
-	      D1E.setSelected(false);
-	      checkBoxMap.add(D1E);
-	      horiBox.add(D1E);
-
-	      D = new JCheckBox(fKlasseStrings[6] + "    ");
-	      D.setMnemonic(KeyEvent.VK_D);
-	      D.setSelected(false);
-	      checkBoxMap.add(D);
-	      horiBox.add(D);
-
-	      DE = new JCheckBox(fKlasseStrings[11] + "  ");
-	      DE.setMnemonic(KeyEvent.VK_D);
-	      DE.setSelected(false);
-	      checkBoxMap.add(DE);
-	      horiBox.add(DE);
-	      vertBox2.add(vertBox1, BorderLayout.NORTH);
-	      vertBox2.add(horiBox, BorderLayout.WEST);
-	      
-	      horiBox = new JPanel();
-	      horiBox.setLayout(new BoxLayout(horiBox, BoxLayout.LINE_AXIS));
-	      M = new JCheckBox(fKlasseStrings[12] + "    ");
-	      M.setMnemonic(KeyEvent.VK_M);
-	      M.setSelected(false);
-	      checkBoxMap.add(M);
-	      horiBox.add(M);
-
-	      L = new JCheckBox(fKlasseStrings[13] + "    ");
-	      L.setMnemonic(KeyEvent.VK_L);
-	      L.setSelected(false);
-	      checkBoxMap.add(L);
-	      horiBox.add(L);
-
-	      TS = new JCheckBox(fKlasseStrings[14]);
-	      TS.setMnemonic(KeyEvent.VK_T);
-	      TS.setSelected(false);
-	      checkBoxMap.add(TS);
-	      horiBox.add(TS);
-	      vertBox2.add(horiBox, BorderLayout.SOUTH);
-	      
-	      horiBox = new JPanel();
-	      horiBox.setLayout(new BorderLayout());
-	      JLabel a1Label = new JLabel(" Fuehrerscheinklassen: ");
-	      a1Label.setPreferredSize(new Dimension(140, 30));
-	      a1Label.setMaximumSize(new Dimension(140, 30));
-	      horiBox.add(a1Label, BorderLayout.WEST);
-//	      horiBox.add(vertBox1, BorderLayout.WEST);
-	      horiBox.add(vertBox2, BorderLayout.CENTER);
+	      JLabel vornameLabel = new JLabel(" Vorname: ");
+	      vornameLabel.setPreferredSize(new Dimension(140, 30));
+	      vornameLabel.setMaximumSize(new Dimension(140, 30));
+	      horiBox.add(vornameLabel);
+	      vornameStudent = new JTextField();
+	      horiBox.add(vornameStudent);
 	      vertBox.add(horiBox);
-
+	      
 	      horiBox = new JPanel();
 	      horiBox.setLayout(new BoxLayout(horiBox, BoxLayout.LINE_AXIS));
-	      JLabel fSeitLabel = new JLabel(" Fuehrerschein Seit: ");
-	      fSeitLabel.setPreferredSize(new Dimension(140, 30));
-	      fSeitLabel.setMaximumSize(new Dimension(140, 30));
-	      horiBox.add(fSeitLabel);
-	      fDatum = new JDatePicker();
-	      horiBox.add(fDatum);
+	      JLabel emailLabel = new JLabel(" E-Mail: ");
+	      emailLabel.setPreferredSize(new Dimension(140, 30));
+	      emailLabel.setMaximumSize(new Dimension(140, 30));
+	      horiBox.add(emailLabel);
+	      emailStudent = new JTextField();
+	      horiBox.add(emailStudent);
 	      vertBox.add(horiBox);
 	      
 	      JTable tableCar = new JTable();
@@ -248,10 +156,6 @@ public class DialogStudent extends JDialog
 	      saveButton.addActionListener(new ActionStudent("add", this, parent, model));
 	      saveButton.setEnabled(true);
 
-	      relationButton = new JButton("Speichern und ClassCompany hinzufuegen");
-	      relationButton.addActionListener(new ActionStudent("rel", this, parent, model));
-	      relationButton.setEnabled(true);
-
 	      exitButton = new JButton("Abbrechen");
 	      exitButton.addActionListener(new ActionListener()
 	      {
@@ -267,7 +171,6 @@ public class DialogStudent extends JDialog
 	      buttonBox.setLayout(new BoxLayout(buttonBox, BoxLayout.LINE_AXIS));
 	      buttonBox.add(deleteButton);
 	      buttonBox.add(saveButton);
-	      buttonBox.add(relationButton);
 	      buttonBox.add(exitButton);
 
 	      vertBox.add(buttonBox, BorderLayout.SOUTH);
@@ -302,15 +205,15 @@ public class DialogStudent extends JDialog
 	   @SuppressWarnings("deprecation")
 	public void loadClassStudent(ClassStudent classStudent)
 	   {
-	      nameFahrer.setText(classStudent.getName());
-	      for(JCheckBox checkBox : checkBoxMap)
-	      {
-	    	  if(classStudent.getFueKlasse().contains(checkBox.getLabel().trim() + ","))
-	    		  checkBox.setSelected(true);
-	    	  if(classStudent.getFueKlasse().endsWith(checkBox.getLabel().trim()))
-	    		  checkBox.setSelected(true);
-	      }
-	      fDatum.setSelectedDate(new Date(classStudent.getFueSeit().getYear()-1900, classStudent.getFueSeit().getMonth(), classStudent.getFueSeit().getDate()));
+//	      nameStudent.setText(classStudent.getName());
+//	      for(JCheckBox checkBox : checkBoxMap)
+//	      {
+//	    	  if(classStudent.getFueKlasse().contains(checkBox.getLabel().trim() + ","))
+//	    		  checkBox.setSelected(true);
+//	    	  if(classStudent.getFueKlasse().endsWith(checkBox.getLabel().trim()))
+//	    		  checkBox.setSelected(true);
+//	      }
+//	      fDatum.setSelectedDate(new Date(classStudent.getFueSeit().getYear()-1900, classStudent.getFueSeit().getMonth(), classStudent.getFueSeit().getDate()));
 	   }
 
 	public Integer getRow() {

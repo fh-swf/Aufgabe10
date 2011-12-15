@@ -9,7 +9,7 @@ import de.fhswf.db.Testdb;
 
 public class Database {
 
-	private static final String DataBaseFileName = "fuhrpark_hsql_db";
+	private static final String DataBaseFileName = "project_hsql_db";
 	private static final File DataBaseFile = new File(DataBaseFileName+".script");
 	private Testdb dataBase;
 	private Integer id;
@@ -29,41 +29,44 @@ public class Database {
 			if(!DB_exists){
 				// Anlegen einer neuen Tabellenstruktur, falls die Datenbank noch nicht besteht.
 				update(
-						"CREATE TABLE fahrer ( " +
-						"id INTEGER IDENTITY, " +
+						"CREATE TABLE student ( " +
+						"id INTEGER, " +
 						"name VARCHAR(30), " +
-						"fklasse VARCHAR(55), " +
-						"fseit DATE" +
+						"vorname VARCHAR(30), " +
+						"email VARCHAR(40), " +
+//						"plz INTEGER, " +
+//						"ort VARCHAR(30), " +
+//						"adresse VARCHAR(50), " +
 						")");
 				
 				update(
-						"CREATE TABLE fahrzeug ( " +
+						"CREATE TABLE company ( " +
 						"id INTEGER IDENTITY, " +
-						"kennzeichen VARCHAR(30), " +
-						"erstzulassung DATE" +
+						"name VARCHAR(50), " +
+//						"plz INTEGER, " +
+//						"ort VARCHAR(30), " +
+//						"adresse VARCHAR(50), " +
+						"kontaktp VARCHAR(30), " +
+//						"mail VARCHAR(30), " +
+//						"tel VARCHAR(30), " +
+//						"fax VARCHAR(30), " +
 						")");
 				
 				update(
-						"CREATE TABLE fahrer_fahrzeug ( " +
+						"CREATE TABLE project ( " +
 						"id INTEGER IDENTITY, " +
-						"fahrer_id INTEGER, " +
-						"fahrzeug_id INTEGER" +
+						"thema VARCHAR(30), " +
+						"beschreibung VARCHAR(30), " +
+//						"skizze VARCHAR(255), " +
 						")");
 				
 			// Füllen der Tabelle mit Einträgen
-				@SuppressWarnings("deprecation")
-				Date date1 = new Date(2000, 1, 15);
-				System.out.println(date1.toString());
-				@SuppressWarnings("deprecation")
-				Date date2 = new Date(2001, 3, 15);
-				@SuppressWarnings("deprecation")
-				Date date3 = new Date(2011, 5, 15);
-				@SuppressWarnings("deprecation")
-				Date date4 = new Date(2010, 7, 1);
-				update("INSERT INTO fahrer(name, fklasse, fseit) VALUES('Schmidt', 'A', '" + date1 + "')");
-				update("INSERT INTO fahrer(name, fklasse, fseit) VALUES('Heinzen', 'B', '" + date2 + "')");
-				update("INSERT INTO fahrzeug(kennzeichen, erstzulassung) VALUES('HAM-HY 6', '" + date3 + "')");
-				update("INSERT INTO fahrzeug(kennzeichen, erstzulassung) VALUES('HAM-EY 5', '" + date4 + "')");
+				update("INSERT INTO student(id, name, vorname, email) VALUES(10018333, 'Schmidt', 'Anton', 'a.s@gmail.com')");
+				update("INSERT INTO student(id, name, vorname, email) VALUES(10018344, 'Braun', 'Hans', 'h.b@alice.de')");
+				update("INSERT INTO company(name, kontaktp) VALUES('Braun AG', 'Dipl. Ing. Meyer')");
+				update("INSERT INTO company(name, kontaktp) VALUES('Siemens AG', 'Dipl. Ing. Mueller')");
+				update("INSERT INTO project(thema, beschreibung) VALUES('Rsiersoftware', 'Software')");
+				update("INSERT INTO project(thema, beschreibung) VALUES('SPS-Software', 'Software')");
 			}
 			
 		} catch (Exception e) {
@@ -122,11 +125,11 @@ public class Database {
 				
 				Integer id = rs1.getInt("id");
 		        String name = rs1.getString("name");
-		        String fKlasse = rs1.getString("fklasse");
-		        Date fSeit = rs1.getDate("fseit");
+		        String vorname = rs1.getString("vorname");
+		        String email = rs1.getString("email");
 		        
 		        
-		        ClassStudent classStudent = new ClassStudent(name, fKlasse, fSeit);
+		        ClassStudent classStudent = new ClassStudent(name, vorname, email);
 		        classStudent.setFahrer_ID(id);
 		        classStudent.setEdited(0);
 		        parent.addClassStudent(classStudent);
@@ -135,13 +138,9 @@ public class Database {
 		        StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.append(name);
 				stringBuilder.append(", ");
-				stringBuilder.append(fKlasse);
+				stringBuilder.append(vorname);
 				stringBuilder.append(", ");
-				stringBuilder.append(fSeit.getDay());
-				stringBuilder.append(".");
-				stringBuilder.append(fSeit.getMonth()+1);
-				stringBuilder.append(".");
-				stringBuilder.append(fSeit.getYear());
+				stringBuilder.append(email);
 				System.out.println(stringBuilder.toString());
 			}
 			
@@ -201,157 +200,152 @@ public class Database {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
-	public void write(MainWindow parent)
-	{
-	      System.out.println("delete Drivers...");
-	      for ( ClassStudent classStudent : parent.classStudentMapDel )
-	      {
-	    	 System.out.println(classStudent.toString());
-	    	 if(classStudent.getFahrer_ID() != null)
-	        	 update("DELETE FROM fahrer WHERE id = " + classStudent.getFahrer_ID()
-	        			 			);
-	      }
-	      System.out.println(parent.classStudentMapDel.size() + " deleted Drivers...");
-	      
-				      System.out.println("writing Driver...");
-				      for ( ClassStudent classStudent : parent.classStudentMap )
-				      {
-				    	 Date date = new Date(classStudent.getFueSeit().getYear(), classStudent.getFueSeit().getMonth(), classStudent.getFueSeit().getDate());
-				         System.out.println(classStudent.toString());
-				         if (classStudent.getEdited() == 1)
-				        	 update("UPDATE fahrer " +
-		        			 			"SET (name, fKlasse, fseit) = ('" +
-				        			 classStudent.getName() + "', '" +
-		        			 		 classStudent.getFueKlasse() + "', '" +
-				        			 date.toString() + "') " + 
-		        			 		 "WHERE id = " + classStudent.getFahrer_ID()
-				        			 			);
-				         
-				         if (classStudent.getEdited() == 3)
-				        	 update("INSERT INTO fahrer(name, fklasse, fseit) " +
-				        			 	"VALUES('" +
-				        			 classStudent.getName() + "', '" +
-		        			 		 classStudent.getFueKlasse() + "', '" +
-				        			 date.toString() + "')"
-				        			 			);
-				      }
-				      System.out.println(parent.classCompanyMap.size() + " written Driver...");
-		
-				      
-				      System.out.println("delete Cars...");
-				      for ( ClassCompany classCompany : parent.classCompanyMapDel )
-				      {
-				    	 System.out.println(classCompany.toString());
-				    	 if(classCompany.getFahrzeug_ID() != null)
-				        	 update("DELETE FROM fahrzeug WHERE id = " + classCompany.getFahrzeug_ID()
-				        			 			);
-				      }
-				      System.out.println(parent.classCompanyMapDel.size() + " deleted Cars...");
-				      
-				      System.out.println("writing Cars...");
-				      for ( ClassCompany classCompany : parent.classCompanyMap )
-				      {
-				    	  Date date = new Date(classCompany.getErstzulassung().getYear(), classCompany.getErstzulassung().getMonth(), classCompany.getErstzulassung().getDate());
-					         System.out.println(classCompany.toString());
-					         if (classCompany.getEdited() == 1)
-					        	 update("UPDATE fahrzeug " +
-			        			 			"SET (kennzeichen, erstzulassung) = ('" +
-					        			 classCompany.getKennzeichen() + "', '" +
-					        			 date.toString() + "') " + 
-			        			 		 "WHERE id = " + classCompany.getFahrzeug_ID()
-					        			 			);
-					         
-					         if (classCompany.getEdited() == 3)
-					        	 update("INSERT INTO fahrzeug(kennzeichen, erstzulassung) " +
-					        			 	"VALUES('" +
-					        			 classCompany.getKennzeichen() + "', '" +
-					        			 date.toString() + "')"
-					        			 			);
-				      }
-				      System.out.println(parent.classCompanyMap.size() + " written Cars...");
-				      
-				      System.out.println("delete Relations...");
-				      for ( ClassProject classProject : parent.classProjectMapDel )
-				      {
-				    	 System.out.println(classProject.toString());
-				    	 if(classProject.getBez_ID() != null)
-				        	 update("DELETE FROM fahrer_fahrzeug WHERE id = " + classProject.getBez_ID()
-				        			 			);
-				      }
-				      System.out.println(parent.classProjectMapDel.size() + " deleted Cars...");
-				       
-  
-				      System.out.println("writing Relations...");
-				      for ( ClassProject classProject : parent.classProjectMap )
-				      {
-				         System.out.println(classProject.toString());
-				         if (classProject.getNeu())
-				        	 update("INSERT INTO fahrer_fahrzeug(fahrer_id, fahrzeug_id) " +
-				        			 	"VALUES('" +
-				        			 classProject.getDriverId() + "', '" +
-				        			 classProject.getCarId() + "')"
-				        			 			);
-				      }
-				      System.out.println(parent.classProjectMap.size() + "written Relations...");
-	}
+//	@SuppressWarnings("deprecation")
+//	public void write(MainWindow parent)
+//	{
+//	      System.out.println("delete Drivers...");
+//	      for ( ClassStudent classStudent : parent.classStudentMapDel )
+//	      {
+//	    	 System.out.println(classStudent.toString());
+//	    	 if(classStudent.getFahrer_ID() != null)
+//	        	 update("DELETE FROM fahrer WHERE id = " + classStudent.getFahrer_ID()
+//	        			 			);
+//	      }
+//	      System.out.println(parent.classStudentMapDel.size() + " deleted Drivers...");
+//	      
+//				      System.out.println("writing Driver...");
+//				      for ( ClassStudent classStudent : parent.classStudentMap )
+//				      {
+//				    	 Date date = new Date(classStudent.getFueSeit().getYear(), classStudent.getFueSeit().getMonth(), classStudent.getFueSeit().getDate());
+//				         System.out.println(classStudent.toString());
+//				         if (classStudent.getEdited() == 1)
+//				        	 update("UPDATE fahrer " +
+//		        			 			"SET (name, fKlasse, fseit) = ('" +
+//				        			 classStudent.getName() + "', '" +
+//		        			 		 classStudent.getFueKlasse() + "', '" +
+//				        			 date.toString() + "') " + 
+//		        			 		 "WHERE id = " + classStudent.getFahrer_ID()
+//				        			 			);
+//				         
+//				         if (classStudent.getEdited() == 3)
+//				        	 update("INSERT INTO fahrer(name, fklasse, fseit) " +
+//				        			 	"VALUES('" +
+//				        			 classStudent.getName() + "', '" +
+//		        			 		 classStudent.getFueKlasse() + "', '" +
+//				        			 date.toString() + "')"
+//				        			 			);
+//				      }
+//				      System.out.println(parent.classCompanyMap.size() + " written Driver...");
+//		
+//				      
+//				      System.out.println("delete Cars...");
+//				      for ( ClassCompany classCompany : parent.classCompanyMapDel )
+//				      {
+//				    	 System.out.println(classCompany.toString());
+//				    	 if(classCompany.getFahrzeug_ID() != null)
+//				        	 update("DELETE FROM fahrzeug WHERE id = " + classCompany.getFahrzeug_ID()
+//				        			 			);
+//				      }
+//				      System.out.println(parent.classCompanyMapDel.size() + " deleted Cars...");
+//				      
+//				      System.out.println("writing Cars...");
+//				      for ( ClassCompany classCompany : parent.classCompanyMap )
+//				      {
+//				    	  Date date = new Date(classCompany.getErstzulassung().getYear(), classCompany.getErstzulassung().getMonth(), classCompany.getErstzulassung().getDate());
+//					         System.out.println(classCompany.toString());
+//					         if (classCompany.getEdited() == 1)
+//					        	 update("UPDATE fahrzeug " +
+//			        			 			"SET (kennzeichen, erstzulassung) = ('" +
+//					        			 classCompany.getKennzeichen() + "', '" +
+//					        			 date.toString() + "') " + 
+//			        			 		 "WHERE id = " + classCompany.getFahrzeug_ID()
+//					        			 			);
+//					         
+//					         if (classCompany.getEdited() == 3)
+//					        	 update("INSERT INTO fahrzeug(kennzeichen, erstzulassung) " +
+//					        			 	"VALUES('" +
+//					        			 classCompany.getKennzeichen() + "', '" +
+//					        			 date.toString() + "')"
+//					        			 			);
+//				      }
+//				      System.out.println(parent.classCompanyMap.size() + " written Cars...");
+//				      
+//				      System.out.println("delete Relations...");
+//				      for ( ClassProject classProject : parent.classProjectMapDel )
+//				      {
+//				    	 System.out.println(classProject.toString());
+//				    	 if(classProject.getBez_ID() != null)
+//				        	 update("DELETE FROM fahrer_fahrzeug WHERE id = " + classProject.getBez_ID()
+//				        			 			);
+//				      }
+//				      System.out.println(parent.classProjectMapDel.size() + " deleted Cars...");
+//				       
+//  
+//				      System.out.println("writing Relations...");
+//				      for ( ClassProject classProject : parent.classProjectMap )
+//				      {
+//				         System.out.println(classProject.toString());
+//				         if (classProject.getNeu())
+//				        	 update("INSERT INTO fahrer_fahrzeug(fahrer_id, fahrzeug_id) " +
+//				        			 	"VALUES('" +
+//				        			 classProject.getDriverId() + "', '" +
+//				        			 classProject.getCarId() + "')"
+//				        			 			);
+//				      }
+//				      System.out.println(parent.classProjectMap.size() + "written Relations...");
+//	}
 	
-	@SuppressWarnings("deprecation")
 	public void runTestSzenario(){
 		try {
 			
 			System.out.println("--- TESTFALL 1 ---");
 			System.out.println("--- TABELLE 1 ---");
 			// Ausgeben aller Personen im Terminal
-			dataBase.dumpQuery("SELECT * FROM fahrer");
+			dataBase.dumpQuery("SELECT * FROM student");
 			
 			System.out.println("--- TABELLE 2 ---");
 			// Ausgeben aller Personen im Terminal
-			dataBase.dumpQuery("SELECT * FROM fahrzeug");
+			dataBase.dumpQuery("SELECT * FROM company");
 			
 			System.out.println("--- TABELLE 3 ---");
 			// Ausgeben aller Personen im Terminal
-			dataBase.dumpQuery("SELECT * FROM fahrer_fahrzeug");
+			dataBase.dumpQuery("SELECT * FROM project");
 			
 			System.out.println("--- TESTFALL 2 ---");
 			System.out.println("--- TABELLE 1 ---");
 			// Ausgeben aller Personen über ein ResultSet
-			ResultSet rs1 = dataBase.query("SELECT * FROM fahrer");
+			ResultSet rs1 = dataBase.query("SELECT * FROM student");
 			
 			while (rs1.next()) {
 		        String name = rs1.getString("name");
-		        String fKlasse = rs1.getString("fklasse");
-		        Date fSeit = rs1.getDate("fseit");
+		        String vorname = rs1.getString("vorname");
+		        String email = rs1.getString("email");
 		        StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.append(name);
 				stringBuilder.append(", ");
-				stringBuilder.append(fKlasse);
+				stringBuilder.append(vorname);
 				stringBuilder.append(", ");
-				stringBuilder.append(fSeit.getDay());
-				stringBuilder.append(".");
-				stringBuilder.append(fSeit.getMonth());
-				stringBuilder.append(".");
-				stringBuilder.append(fSeit.getYear());
+				stringBuilder.append(email);
 				System.out.println(stringBuilder.toString());
 			}
 			
-			System.out.println("--- TABELLE 2 ---");
-			// Ausgeben aller Personen über ein ResultSet
-			ResultSet rs2 = dataBase.query("SELECT * FROM fahrzeug");
-			
-			while (rs2.next()) {
-		        String kennzeichen = rs2.getString("kennzeichen");
-		        Date erstzulassung = rs2.getDate("erstzulassung");
-		        StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.append(kennzeichen);
-				stringBuilder.append(", ");
-				stringBuilder.append(erstzulassung.getDay());
-				stringBuilder.append(".");
-				stringBuilder.append(erstzulassung.getMonth());
-				stringBuilder.append(".");
-				stringBuilder.append(erstzulassung.getYear());
-				System.out.println(stringBuilder.toString());
-			}
+//			System.out.println("--- TABELLE 2 ---");
+//			// Ausgeben aller Personen über ein ResultSet
+//			ResultSet rs2 = dataBase.query("SELECT * FROM company");
+//			
+//			while (rs2.next()) {
+//		        String kennzeichen = rs2.getString("kennzeichen");
+//		        Date erstzulassung = rs2.getDate("erstzulassung");
+//		        StringBuilder stringBuilder = new StringBuilder();
+//				stringBuilder.append(kennzeichen);
+//				stringBuilder.append(", ");
+//				stringBuilder.append(erstzulassung.getDay());
+//				stringBuilder.append(".");
+//				stringBuilder.append(erstzulassung.getMonth());
+//				stringBuilder.append(".");
+//				stringBuilder.append(erstzulassung.getYear());
+//				System.out.println(stringBuilder.toString());
+//			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
